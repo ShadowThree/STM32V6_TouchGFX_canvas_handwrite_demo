@@ -26,6 +26,8 @@ public:
     virtual void deactivate();
 
     virtual ~Screen1Presenter() {}
+			
+		virtual void draw_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
 private:
     Screen1Presenter();

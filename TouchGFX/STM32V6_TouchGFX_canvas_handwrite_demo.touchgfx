@@ -76,6 +76,52 @@
               "Green": 255,
               "Blue": 255
             }
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Name": "btnAddLine",
+            "X": 433,
+            "Y": 322,
+            "Width": 240,
+            "Height": 50,
+            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
+            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
+            "TextId": "__SingleUse_23UV",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Name": "btnDeleteLine",
+            "X": 433,
+            "Y": 386,
+            "Width": 240,
+            "Height": 50,
+            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
+            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
+            "TextId": "__SingleUse_R301",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
           }
         ],
         "Interactions": [
@@ -88,6 +134,28 @@
             "Action": {
               "Type": "ActionCustom",
               "FunctionName": "recognize"
+            }
+          },
+          {
+            "InteractionName": "addLine",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "btnAddLine"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "addLine"
+            }
+          },
+          {
+            "InteractionName": "deleteLine",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "btnDeleteLine"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "deleteLine"
             }
           }
         ]

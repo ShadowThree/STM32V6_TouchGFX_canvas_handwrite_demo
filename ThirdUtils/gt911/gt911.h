@@ -97,9 +97,9 @@ typedef enum {
 	GT911_STA_SET_ALL_CONFIG_ERR
 } GT911_STA_t;
 
-typedef struct {
-	uint16_t x;
-	uint16_t y;
+typedef struct __attribute((packed)) {
+	int16_t x;
+	int16_t y;
 } COORDINATE_t;
 
 extern volatile COORDINATE_t touch_coordinate[NUM_TOUCH_SUPPORT];

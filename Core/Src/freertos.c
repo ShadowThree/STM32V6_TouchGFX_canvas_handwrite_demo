@@ -62,6 +62,11 @@ const osThreadAttr_t cmd_process_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
+/* Definitions for coordinate */
+osMessageQueueId_t coordinateHandle;
+const osMessageQueueAttr_t coordinate_attributes = {
+  .name = "coordinate"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -94,6 +99,10 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
+
+  /* Create the queue(s) */
+  /* creation of coordinate */
+  coordinateHandle = osMessageQueueNew (16, 8, &coordinate_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */

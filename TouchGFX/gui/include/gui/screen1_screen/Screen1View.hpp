@@ -15,6 +15,9 @@ public:
     virtual void setupScreen();
     virtual void tearDownScreen();
 		virtual void recognize();
+		virtual void addLine();
+		virtual void deleteLine();
+		virtual void draw_line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 protected:
 		static const uint32_t CANVAS_BUFFER_SIZE = 500;
 		uint8_t canvasBuffer[CANVAS_BUFFER_SIZE];

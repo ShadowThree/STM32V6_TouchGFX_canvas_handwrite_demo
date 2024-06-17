@@ -79,17 +79,63 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-//#include "dbger.h"
+#include "dbger.h"
 #include "gpio.h"
 #include "gt911.h"
+#define LINE_WIDTH	2
+extern osMessageQueueId_t coordinateHandle;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	static COORDINATE_t last_pos[NUM_TOUCH_SUPPORT] = {0};
+	static uint32_t last_tick[NUM_TOUCH_SUPPORT] = {0};
+	osStatus_t osSta;
+
 	if(GPIO_Pin == TP_INT_Pin) {
 		gt911_get_touch((COORDINATE_t*)touch_coordinate, &num_touched);
 		if(num_touched) {
 			//INT_DBG(" detect %d touch(s):\n", num_touched);
 			for(uint8_t i = 0; i < num_touched; i++) {
-				//INT_DBG("\tP%d(%d, %d)\n", i, touch_coordinate[i].x, touch_coordinate[i].y);
+				//LOG_DBG("\tP%d(%d, %d)\n", i, touch_coordinate[i].x, touch_coordinate[i].y);
+				
+				#if 1		// process the handwrite event
+				if(touch_coordinate[i].x > 100 + LINE_WIDTH && touch_coordinate[i].x < 400 - LINE_WIDTH &&
+					 touch_coordinate[i].y > 100 + LINE_WIDTH && touch_coordinate[i].y < 400 - LINE_WIDTH &&
+					 last_pos[i].x > 100 + LINE_WIDTH && last_pos[i].x < 400 - LINE_WIDTH &&
+					 last_pos[i].y > 100 + LINE_WIDTH && last_pos[i].y < 400 - LINE_WIDTH)
+				{
+					if(HAL_GetTick() - last_tick[i] > 20) {
+						last_tick[i] = HAL_GetTick();
+						last_pos[i].x = touch_coordinate[i].x;
+						last_pos[i].y = touch_coordinate[i].y;
+						continue;
+					}
+					last_tick[i] = HAL_GetTick();
+					if(last_pos[i].x != touch_coordinate[i].x || last_pos[i].y != touch_coordinate[i].y) {
+						#if 0		// draw point
+						for(int16_t m = touch_coordinate[i].x - LINE_WIDTH; m <= touch_coordinate[i].x + LINE_WIDTH; m++) {
+							for(int16_t n = touch_coordinate[i].y - LINE_WIDTH; n <= touch_coordinate[i].y + LINE_WIDTH; n++) {
+								addr = (LTDC_L1_ADDR + (m - LTDC_L1_START_X) * 2 + (n - LTDC_L1_START_Y) * LTDC_L1_WIDTH * 2);
+								INT_DBG("P%d(%d, %d) 0x%08x\n", i, touch_coordinate[i].x, touch_coordinate[i].y, addr);
+								if(addr >= LTDC_L1_ADDR && addr < LTDC_L1_ADDR + LTDC_L1_WIDTH * LTDC_L1_HEIGHT * 2) {
+									*(uint16_t*)addr = 0;
+								}
+							}
+						}
+						#else		// draw line
+						LOG_DBG("A(%d, %d) --> A(%d, %d)\n", last_pos[i].x, last_pos[i].y, touch_coordinate[i].x, touch_coordinate[i].y);
+						//LTDC_draw_line(last_pos[i].x, last_pos[i].y, touch_coordinate[i].x, touch_coordinate[i].y);
+						COORDINATE_t coordinate[2] = {{.x = last_pos[i].x, .y = last_pos[i].y}, {.x = touch_coordinate[i].x, .y = touch_coordinate[i].y}};
+						osSta = osMessageQueuePut(coordinateHandle, coordinate, NULL, 0);
+						if(osSta != osOK) {
+							LOG_ERR("queue put err[%d]\n", osSta);
+						}
+						#endif
+					}
+				}
+				last_pos[i].x = touch_coordinate[i].x;
+				last_pos[i].y = touch_coordinate[i].y;
+				#endif
+				
 			}
 		}
 	}
