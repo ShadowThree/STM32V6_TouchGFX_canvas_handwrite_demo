@@ -82,6 +82,7 @@ void MX_GPIO_Init(void)
 #include "dbger.h"
 #include "gpio.h"
 #include "gt911.h"
+#include "atk_ncr.h"
 #define LINE_WIDTH	2
 extern osMessageQueueId_t coordinateHandle;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -125,6 +126,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 						LOG_DBG("A(%d, %d) --> A(%d, %d)\n", last_pos[i].x, last_pos[i].y, touch_coordinate[i].x, touch_coordinate[i].y);
 						//LTDC_draw_line(last_pos[i].x, last_pos[i].y, touch_coordinate[i].x, touch_coordinate[i].y);
 						COORDINATE_t coordinate[2] = {{.x = last_pos[i].x, .y = last_pos[i].y}, {.x = touch_coordinate[i].x, .y = touch_coordinate[i].y}};
+						if(point_num == 0) {
+							draw_coor[0].x = last_pos[i].x;
+							draw_coor[0].y = last_pos[i].y;
+							draw_coor[1].x = touch_coordinate[i].x;
+							draw_coor[1].y = touch_coordinate[i].y;
+							point_num = 2;
+						} else {
+							draw_coor[point_num].x = touch_coordinate[i].x;
+							draw_coor[point_num++].y = touch_coordinate[i].y;
+						}
 						osSta = osMessageQueuePut(coordinateHandle, coordinate, NULL, 0);
 						if(osSta != osOK) {
 							LOG_ERR("queue put err[%d]\n", osSta);

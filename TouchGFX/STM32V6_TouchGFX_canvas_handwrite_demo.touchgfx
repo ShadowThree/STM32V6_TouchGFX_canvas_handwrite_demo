@@ -102,14 +102,14 @@
           },
           {
             "Type": "ButtonWithLabel",
-            "Name": "btnDeleteLine",
-            "X": 433,
-            "Y": 386,
-            "Width": 240,
+            "Name": "btnClear",
+            "X": 195,
+            "Y": 409,
+            "Width": 110,
             "Height": 50,
-            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
-            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
-            "TextId": "__SingleUse_R301",
+            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_tiny_round_pressed.png",
+            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_tiny_round_normal.png",
+            "TextId": "__SingleUse_37SG",
             "ReleasedColor": {
               "Red": 255,
               "Green": 255,
@@ -121,7 +121,7 @@
               "Blue": 255
             },
             "TextRotation": "0",
-            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\tiny_round_normal.json"
           }
         ],
         "Interactions": [
@@ -148,14 +148,14 @@
             }
           },
           {
-            "InteractionName": "deleteLine",
+            "InteractionName": "clear",
             "Trigger": {
               "Type": "TriggerClicked",
-              "TriggerComponent": "btnDeleteLine"
+              "TriggerComponent": "btnClear"
             },
             "Action": {
               "Type": "ActionCustom",
-              "FunctionName": "deleteLine"
+              "FunctionName": "clear"
             }
           }
         ]

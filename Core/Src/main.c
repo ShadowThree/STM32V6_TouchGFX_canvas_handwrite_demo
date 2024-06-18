@@ -31,6 +31,7 @@
 /* USER CODE BEGIN Includes */
 #include "dbger.h"
 #include "gt911.h"
+#include "atk_ncr.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,6 +106,7 @@ int main(void)
   /* Call PreOsInit function */
   MX_TouchGFX_PreOSInit();
   /* USER CODE BEGIN 2 */
+	alientek_ncr_init();
 	HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_SET);		// turn on LCD backlight
   /* USER CODE END 2 */
 
